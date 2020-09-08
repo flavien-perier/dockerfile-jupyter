@@ -1,6 +1,6 @@
 # Dockerfile Jupyter
 
-Dockerfile for Python ![Jupyter](https://jupyter.org/) environment.
+Dockerfile for Python [Jupyter](https://jupyter.org/) environment.
 
 ## Env variables
 
