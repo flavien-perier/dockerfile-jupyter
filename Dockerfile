@@ -16,11 +16,11 @@ COPY start.sh start.sh
 
 RUN apt-get update && apt-get install -y sudo && \
     pip3 install jupyter jupyter_contrib_nbextensions jupyterthemes ipyparallel && \
-    rm -rf /var/lib/apt/lists/* && \
     groupadd -g $DOCKER_GID jupyter && \
     useradd -g jupyter -M -d /opt/jupyter -u $DOCKER_UID jupyter && \
     chown -R jupyter:jupyter /opt/jupyter && \
     chmod -R 750 /opt/jupyter && \
+    rm -rf /var/lib/apt/lists/* && \
     echo "jupyter ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 USER jupyter
