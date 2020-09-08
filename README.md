@@ -18,11 +18,13 @@ Dockerfile for Python [Jupyter](https://jupyter.org/) environment.
 
 ```yaml
 jupyter:
-    image: flavienperier/jupyter
-    container_name: jupyter
-    restart: always
-    volumes:
-      - ./documents:/opt/notebooks
-    environment:
-      JUPYTER_PASSWORD: password
+  image: flavienperier/jupyter
+  container_name: jupyter
+  restart: always
+  volumes:
+    - ./documents:/opt/notebooks
+  ports:
+    - 3128:3128
+  environment:
+    JUPYTER_PASSWORD: password
 ```
