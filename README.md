@@ -24,7 +24,7 @@ jupyter:
   volumes:
     - ./documents:/opt/notebooks
   ports:
-    - 3128:3128
+    - 8080:8080
   environment:
     JUPYTER_PASSWORD: password
 ```
