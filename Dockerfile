@@ -20,8 +20,6 @@ RUN apt-get update && apt-get install -y sudo && \
     useradd -g jupyter -M -d /opt/jupyter -u $DOCKER_UID jupyter && \
     chown -R jupyter:jupyter /opt/jupyter && \
     chmod -R 750 /opt/jupyter && \
-    chown -R jupyter:jupyter /opt/notebooks && \
-    chmod -R 750 /opt/notebooks && \
     rm -rf /var/lib/apt/lists/* && \
     echo "jupyter ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
