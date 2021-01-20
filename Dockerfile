@@ -1,4 +1,4 @@
-FROM python:slim-buster
+FROM python:3.6-slim-buster
 
 LABEL maintainer="Flavien PERIER <perier@flavien.io>"
 LABEL version="1.0"
@@ -10,8 +10,8 @@ ARG DOCKER_GID=500
 ENV JUPYTER_PASSWORD=password
 
 WORKDIR /opt/jupyter
+VOLUME /opt/notebooks
 
-COPY password.py password.py
 COPY start.sh start.sh
 
 RUN apt-get update && apt-get install -y sudo && \
@@ -20,11 +20,12 @@ RUN apt-get update && apt-get install -y sudo && \
     useradd -g jupyter -M -d /opt/jupyter -u $DOCKER_UID jupyter && \
     chown -R jupyter:jupyter /opt/jupyter && \
     chmod -R 750 /opt/jupyter && \
+    chown -R jupyter:jupyter /opt/notebooks && \
+    chmod -R 750 /opt/notebooks && \
     rm -rf /var/lib/apt/lists/* && \
     echo "jupyter ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 USER jupyter
-VOLUME /opt/notebooks
 EXPOSE 8080
 
 RUN pip3 install pandas scipy numpy statsmodels sklearn matplotlib tensorflow tensorflow-gpu keras nltk && \
