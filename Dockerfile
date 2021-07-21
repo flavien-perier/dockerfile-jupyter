@@ -1,13 +1,13 @@
 FROM python:3.6-slim-buster
 
-LABEL maintainer="Flavien PERIER <perier@flavien.io>"
-LABEL version="1.0"
-LABEL description="Jupyter notebook"
+LABEL maintainer="Flavien PERIER <perier@flavien.io>" \
+      version="1.0.0" \
+      description="Jupyter notebook"
 
-ARG DOCKER_UID=500
-ARG DOCKER_GID=500
+ARG DOCKER_UID="500"
+ARG DOCKER_GID="500"
 
-ENV JUPYTER_PASSWORD=password
+ENV JUPYTER_PASSWORD="password"
 
 WORKDIR /opt/jupyter
 VOLUME /opt/notebooks
@@ -24,7 +24,6 @@ RUN apt-get update && apt-get install -y sudo && \
     echo "jupyter ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 USER jupyter
-EXPOSE 8080
 
 RUN pip3 install pandas scipy numpy statsmodels sklearn matplotlib tensorflow tensorflow-gpu keras nltk && \
     pip3 install jupyter-tabnine --user && \
@@ -40,5 +39,7 @@ RUN pip3 install pandas scipy numpy statsmodels sklearn matplotlib tensorflow te
     jupyter nbextension enable table_beautifier/main --user && \
     jupyter nbextension enable snippets_menu/main --user && \
     jt -t monokai -f fira -fs 13 -nf ptsans -nfs 11 -N -kl -cursw 5 -cursc r -cellw 95% -T
+
+EXPOSE 8080
 
 CMD ./start.sh
