@@ -1,8 +1,8 @@
 #!/bin/bash
 
-mkdir ~/.jupyter
+mkdir -p ~/.jupyter
 
-python - << EOL > ~/.jupyter/jupyter_notebook_config.json
+python3 << EOL > ~/.jupyter/jupyter_notebook_config.json
 from notebook.auth import passwd
 import os
 

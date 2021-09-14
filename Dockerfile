@@ -1,4 +1,4 @@
-FROM python:3.6-slim-buster
+FROM nvidia/cuda:10.0-devel
 
 LABEL maintainer="Flavien PERIER <perier@flavien.io>" \
       version="1.0.0" \
@@ -8,14 +8,16 @@ ARG DOCKER_UID="500"
 ARG DOCKER_GID="500"
 
 ENV JUPYTER_PASSWORD="password"
+ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64/;/usr/lib/x86_64-linux-gnu/"
 
 WORKDIR /opt/jupyter
 VOLUME /opt/notebooks
 
 COPY start.sh start.sh
 
-RUN apt-get update && apt-get install -y sudo && \
-    pip3 install jupyter jupyter_contrib_nbextensions jupyterthemes ipyparallel && \
+RUN apt-get update && \
+    apt-get install -y sudo python3.8 python3.8-dev python3-pip gcc gpp libcudnn7 && \
+    pip3 install jupyter jupyter_contrib_nbextensions jupyterthemes && \
     groupadd -g $DOCKER_GID jupyter && \
     useradd -g jupyter -M -d /opt/jupyter -u $DOCKER_UID jupyter && \
     chown -R jupyter:jupyter /opt/jupyter && \
@@ -25,7 +27,7 @@ RUN apt-get update && apt-get install -y sudo && \
 
 USER jupyter
 
-RUN pip3 install pandas scipy numpy statsmodels sklearn matplotlib tensorflow tensorflow-gpu keras nltk && \
+RUN pip3 install pandas scipy numpy statsmodels sklearn matplotlib tensorflow tensorflow-gpu keras nltk --user && \
     pip3 install jupyter-tabnine --user && \
     jupyter contrib nbextension install --user && \
     jupyter nbextension install --py jupyter_tabnine --user && \
