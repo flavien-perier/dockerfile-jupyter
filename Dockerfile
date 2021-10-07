@@ -13,16 +13,17 @@ ENV JUPYTER_PASSWORD="password" \
 WORKDIR /opt/jupyter
 VOLUME /opt/notebooks
 
-COPY --chown=jupyter:jupyter start.sh start.sh
-
 RUN apt-get update && \
-    apt-get install -y sudo python3.8 python3.8-dev python3-pip gcc gpp libcudnn7 && \
+    apt-get install -y sudo python3.6 python3.6-dev python3-pip gcc gpp libcudnn7 && \
     pip3 install jupyter jupyter_contrib_nbextensions jupyterthemes && \
     groupadd -g $DOCKER_GID jupyter && \
     useradd -g jupyter -M -d /opt/jupyter -u $DOCKER_UID jupyter && \
     chmod -R 750 /opt/jupyter && \
+    chown -R jupyter:jupyter /opt/jupyter && \
     rm -rf /var/lib/apt/lists/* && \
     echo "jupyter ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+COPY --chown=jupyter:jupyter start.sh start.sh
 
 USER jupyter
 
