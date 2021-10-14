@@ -40,7 +40,7 @@ RUN pip3 install pandas scipy numpy statsmodels sklearn matplotlib seaborn tenso
     jupyter nbextension enable varInspector/main --user && \
     jupyter nbextension enable table_beautifier/main --user && \
     jupyter nbextension enable snippets_menu/main --user && \
-    jt -t monokai -f fira -fs 13 -nf ptsans -nfs 11 -N -kl -cursw 5 -cursc r -cellw 95% -T \
+    jt -t monokai -f fira -fs 13 -nf ptsans -nfs 11 -N -kl -cursw 5 -cursc r -cellw 95% -T && \
     chmod 750 start.sh
 
 EXPOSE 8080
