@@ -1,20 +1,19 @@
-FROM nvidia/cuda:10.0-devel
+FROM nvidia/cuda:11.4.2-devel-ubuntu20.04
 
 LABEL maintainer="Flavien PERIER <perier@flavien.io>" \
-      version="1.0.0" \
+      version="2.0.0" \
       description="Jupyter notebook"
 
 ARG DOCKER_UID="500" \
-    DOCKER_GID="500"
+    DOCKER_GID="500" \
+    DEBIAN_FRONTEND=noninteractive
 
-ENV JUPYTER_PASSWORD="password" \
-    LD_LIBRARY_PATH="/usr/local/cuda/lib64/;/usr/lib/x86_64-linux-gnu/"
+ENV JUPYTER_PASSWORD="password"
 
 WORKDIR /opt/jupyter
 VOLUME /opt/notebooks
 
-RUN apt-get update && \
-    apt-get install -y sudo python3.6 python3.6-dev python3-pip gcc gpp libcudnn7 && \
+RUN apt-get update && apt-get install -y sudo python3.9 python3.9-dev python3-pip gcc gpp libcudnn8 &&\
     pip3 install jupyter jupyter_contrib_nbextensions jupyterthemes && \
     groupadd -g $DOCKER_GID jupyter && \
     useradd -g jupyter -M -d /opt/jupyter -u $DOCKER_UID jupyter && \
