@@ -26,7 +26,7 @@ COPY --chown=jupyter:jupyter start.sh start.sh
 
 USER jupyter
 
-RUN pip3 install pandas scipy numpy statsmodels sklearn matplotlib seaborn tensorflow tensorflow-gpu keras nltk --user && \
+RUN pip3 install pandas scipy numpy statsmodels sklearn matplotlib seaborn tensorflow tensorflow-gpu keras nltk openai --user && \
     pip3 install jupyter-tabnine --user && \
     jupyter contrib nbextension install --user && \
     jupyter nbextension install --py jupyter_tabnine --user && \
@@ -39,6 +39,7 @@ RUN pip3 install pandas scipy numpy statsmodels sklearn matplotlib seaborn tenso
     jupyter nbextension enable varInspector/main --user && \
     jupyter nbextension enable table_beautifier/main --user && \
     jupyter nbextension enable snippets_menu/main --user && \
+    jupyter nbextension enable hinterland/hinterland --user && \
     jt -t monokai -f fira -fs 13 -nf ptsans -nfs 11 -N -kl -cursw 5 -cursc r -cellw 95% -T && \
     chmod 750 start.sh
 
