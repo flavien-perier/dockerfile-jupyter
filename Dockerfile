@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.4.2-devel-ubuntu20.04
+FROM nvidia/cuda:12.0.0-devel-ubuntu22.04
 
 LABEL maintainer="Flavien PERIER <perier@flavien.io>" \
       version="2.0.0" \
@@ -13,7 +13,7 @@ ENV JUPYTER_PASSWORD="password"
 WORKDIR /opt/jupyter
 VOLUME /opt/notebooks
 
-RUN apt-get update && apt-get install -y sudo python3.9 python3.9-dev python3-pip gcc gpp libcudnn8 &&\
+RUN apt-get update && apt-get install -y sudo python3.11 python3.11-dev python3-pip gcc gpp libcudnn8 &&\
     pip3 install jupyter jupyter_contrib_nbextensions jupyterthemes && \
     groupadd -g $DOCKER_GID jupyter && \
     useradd -g jupyter -M -d /opt/jupyter -u $DOCKER_UID jupyter && \
