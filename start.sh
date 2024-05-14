@@ -3,7 +3,7 @@
 mkdir -p ~/.jupyter
 
 python3 << EOL > ~/.jupyter/jupyter_notebook_config.json
-from notebook.auth import passwd
+from jupyter_server.auth import passwd
 import os
 
 jupyter_hash=passwd(os.environ['JUPYTER_PASSWORD'])

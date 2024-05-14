@@ -1,20 +1,27 @@
-FROM nvidia/cuda:12.0.0-devel-ubuntu22.04
+FROM nvidia/cuda:12.4.1-devel-ubuntu22.04
 
 LABEL maintainer="Flavien PERIER <perier@flavien.io>" \
       version="2.0.0" \
-      description="Jupyter notebook"
+      description="Jupyter notebook" \
+      org.opencontainers.image.title="Jupyter" \
+      org.opencontainers.image.description="Jupyter notebook" \
+      org.opencontainers.image.vendor="flavien.io" \
+      org.opencontainers.image.url="https://github.com/flavien-perier/dockerfile-jupyter" \
+      org.opencontainers.image.source="https://github.com/flavien-perier/dockerfile-jupyter" \
+      org.opencontainers.image.version="2.0.0" \ 
+      org.opencontainers.image.licenses="MIT"
 
 ARG DOCKER_UID="500" \
     DOCKER_GID="500" \
-    DEBIAN_FRONTEND=noninteractive
+    DEBIAN_FRONTEND="noninteractive"
 
 ENV JUPYTER_PASSWORD="password"
 
 WORKDIR /opt/jupyter
 VOLUME /opt/notebooks
 
-RUN apt-get update && apt-get install -y sudo python3.11 python3.11-dev python3-pip gcc gpp libcudnn8 &&\
-    pip3 install jupyter jupyter_contrib_nbextensions jupyterthemes && \
+RUN apt-get update && apt-get install -y sudo python3 python3-dev python3-pip gcc gpp libcudnn8 &&\
+    pip3 install notebook==6.5.7 jupyter_contrib_nbextensions jupyterthemes && \
     groupadd -g $DOCKER_GID jupyter && \
     useradd -g jupyter -M -d /opt/jupyter -u $DOCKER_UID jupyter && \
     chmod -R 750 /opt/jupyter && \
@@ -26,7 +33,7 @@ COPY --chown=jupyter:jupyter start.sh start.sh
 
 USER jupyter
 
-RUN pip3 install pandas scipy numpy statsmodels sklearn matplotlib seaborn tensorflow tensorflow-gpu keras nltk openai --user && \
+RUN pip3 install pandas scipy numpy statsmodels scikit-learn matplotlib seaborn tensorflow keras nltk openai --user && \
     pip3 install jupyter-tabnine --user && \
     jupyter contrib nbextension install --user && \
     jupyter nbextension install --py jupyter_tabnine --user && \
