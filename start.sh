@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 mkdir -p ~/.jupyter
 
 python3 << EOL > ~/.jupyter/jupyter_notebook_config.json

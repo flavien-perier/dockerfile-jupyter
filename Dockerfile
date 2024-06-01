@@ -1,18 +1,16 @@
 FROM nvidia/cuda:12.4.1-devel-ubuntu22.04
 
-LABEL maintainer="Flavien PERIER <perier@flavien.io>" \
-      version="2.0.0" \
-      description="Jupyter notebook" \
-      org.opencontainers.image.title="Jupyter" \
+LABEL org.opencontainers.image.title="Jupyter" \
       org.opencontainers.image.description="Jupyter notebook" \
+      org.opencontainers.image.version="2.0.0" \
       org.opencontainers.image.vendor="flavien.io" \
+      org.opencontainers.image.maintainer="Flavien PERIER <perier@flavien.io>" \
       org.opencontainers.image.url="https://github.com/flavien-perier/dockerfile-jupyter" \
       org.opencontainers.image.source="https://github.com/flavien-perier/dockerfile-jupyter" \
-      org.opencontainers.image.version="2.0.0" \ 
       org.opencontainers.image.licenses="MIT"
 
-ARG DOCKER_UID="500" \
-    DOCKER_GID="500" \
+ARG DOCKER_UID="1000" \
+    DOCKER_GID="1000" \
     DEBIAN_FRONTEND="noninteractive"
 
 ENV JUPYTER_PASSWORD="password"
@@ -29,11 +27,9 @@ RUN apt-get update && apt-get install -y sudo python3 python3-dev python3-pip gc
     rm -rf /var/lib/apt/lists/* && \
     echo "jupyter ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-COPY --chown=jupyter:jupyter start.sh start.sh
-
 USER jupyter
 
-RUN pip3 install pandas scipy numpy statsmodels scikit-learn matplotlib seaborn tensorflow keras nltk openai --user && \
+RUN pip3 install pandas scipy numpy statsmodels scikit-learn matplotlib seaborn tensorflow keras nltk transformers openai --user && \
     pip3 install jupyter-tabnine --user && \
     jupyter contrib nbextension install --user && \
     jupyter nbextension install --py jupyter_tabnine --user && \
@@ -47,8 +43,9 @@ RUN pip3 install pandas scipy numpy statsmodels scikit-learn matplotlib seaborn 
     jupyter nbextension enable table_beautifier/main --user && \
     jupyter nbextension enable snippets_menu/main --user && \
     jupyter nbextension enable hinterland/hinterland --user && \
-    jt -t monokai -f fira -fs 13 -nf ptsans -nfs 11 -N -kl -cursw 5 -cursc r -cellw 95% -T && \
-    chmod 750 start.sh
+    jt -t monokai -f fira -fs 13 -nf ptsans -nfs 11 -N -kl -cursw 5 -cursc r -cellw 95% -T
+
+COPY --chown=jupyter:jupyter --chmod=500 start.sh start.sh
 
 EXPOSE 8080
 
