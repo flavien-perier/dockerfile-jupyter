@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.4.1-devel-ubuntu22.04
+FROM nvidia/cuda:12.8.1-devel-ubuntu24.04
 
 LABEL org.opencontainers.image.title="Jupyter" \
       org.opencontainers.image.description="Jupyter notebook" \
@@ -18,8 +18,9 @@ ENV JUPYTER_PASSWORD="password"
 WORKDIR /opt/jupyter
 VOLUME /opt/notebooks
 
-RUN apt-get update && apt-get install -y sudo python3 python3-dev python3-pip gcc gpp libcudnn8 &&\
-    pip3 install notebook==6.5.7 jupyter_contrib_nbextensions jupyterthemes && \
+RUN apt-get update && apt-get install -y sudo python3 python3-dev python3-pip python3-poetry gcc gpp libcudnn9-cuda-12 && \
+    pip3 install --break-system-packages notebook==6.5.7 jupyter_contrib_nbextensions jupyterthemes && \
+    deluser ubuntu && \
     groupadd -g $DOCKER_GID jupyter && \
     useradd -g jupyter -M -d /opt/jupyter -u $DOCKER_UID jupyter && \
     chmod -R 750 /opt/jupyter && \
@@ -29,8 +30,8 @@ RUN apt-get update && apt-get install -y sudo python3 python3-dev python3-pip gc
 
 USER jupyter
 
-RUN pip3 install pandas scipy numpy statsmodels scikit-learn matplotlib seaborn tensorflow keras nltk transformers openai --user && \
-    pip3 install jupyter-tabnine --user && \
+RUN pip3 install --break-system-packages --user pandas scipy numpy statsmodels scikit-learn matplotlib seaborn tensorflow keras nltk transformers openai crewai langchain-community && \
+    pip3 install --break-system-packages --user jupyter-tabnine && \
     jupyter contrib nbextension install --user && \
     jupyter nbextension install --py jupyter_tabnine --user && \
     jupyter nbextension enable --py jupyter_tabnine --user && \
