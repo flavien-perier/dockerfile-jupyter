@@ -19,7 +19,7 @@ WORKDIR /opt/jupyter
 VOLUME /opt/notebooks
 
 RUN apt-get update && apt-get install -y sudo python3 python3-dev python3-pip python3-poetry gcc gpp libcudnn9-cuda-12 && \
-    pip3 install --break-system-packages notebook==6.5.7 jupyter_contrib_nbextensions jupyterthemes && \
+    pip3 install --break-system-packages jupyterlab && \
     deluser ubuntu && \
     groupadd -g $DOCKER_GID jupyter && \
     useradd -g jupyter -M -d /opt/jupyter -u $DOCKER_UID jupyter && \
@@ -30,24 +30,11 @@ RUN apt-get update && apt-get install -y sudo python3 python3-dev python3-pip py
 
 USER jupyter
 
-RUN pip3 install --break-system-packages --user pandas scipy numpy statsmodels scikit-learn matplotlib seaborn tensorflow keras nltk transformers openai crewai langchain-community && \
-    pip3 install --break-system-packages --user jupyter-tabnine && \
-    jupyter contrib nbextension install --user && \
-    jupyter nbextension install --py jupyter_tabnine --user && \
-    jupyter nbextension enable --py jupyter_tabnine --user && \
-    jupyter serverextension enable --py jupyter_tabnine --user && \
-    jupyter nbextension enable execute_time/ExecuteTime --user && \
-    jupyter nbextension enable autosavetime/main --user && \
-    jupyter nbextension enable hide_input_all/main --user && \
-    jupyter nbextension enable skip-traceback/main --user && \
-    jupyter nbextension enable varInspector/main --user && \
-    jupyter nbextension enable table_beautifier/main --user && \
-    jupyter nbextension enable snippets_menu/main --user && \
-    jupyter nbextension enable hinterland/hinterland --user && \
-    jt -t monokai -f fira -fs 13 -nf ptsans -nfs 11 -N -kl -cursw 5 -cursc r -cellw 95% -T
+RUN pip3 install --break-system-packages --user pandas scipy numpy statsmodels scikit-learn matplotlib seaborn tensorflow keras nltk transformers openai crewai langchain-community
 
-COPY --chown=jupyter:jupyter --chmod=500 start.sh start.sh
+COPY --chown=jupyter:jupyter --chmod=500 themes.jupyterlab-settings .jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
+COPY --chown=jupyter:jupyter --chmod=500 start.py start.py
 
 EXPOSE 8080
 
-CMD ./start.sh
+CMD ./start.py
