@@ -24,7 +24,7 @@ with open(config_path, "w") as config_file:
 
 app = ServerApp()
 app.notebook_dir = "/opt/notebooks"
-app.ip = "*"
+app.ip = "0.0.0.0"
 app.port = 8080
 app.open_browser = False
 
