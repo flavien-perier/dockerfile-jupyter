@@ -16,7 +16,7 @@ Dockerfile for Python [Jupyter](https://jupyter.org/) environment.
 
 ## Volumes
 
-- /opt/notebooks
+- /data
 
 ## Docker-compose example
 
@@ -26,7 +26,7 @@ jupyter:
   container_name: jupyter
   restart: always
   volumes:
-    - ./documents:/opt/notebooks
+    - ./documents:/data
   ports:
     - 8080:8080
   environment:

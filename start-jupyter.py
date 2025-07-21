@@ -1,5 +1,3 @@
-#!/bin/python3
-
 import os
 import json
 from jupyter_server.auth import passwd
@@ -7,7 +5,7 @@ from jupyter_server.serverapp import ServerApp
 
 jupyter_password = os.environ.get("JUPYTER_PASSWORD")
 
-jupyter_dir = os.path.expanduser("~/.jupyter")
+jupyter_dir = os.path.expanduser("/opt/jupyter/.jupyter")
 os.makedirs(jupyter_dir, exist_ok=True)
 
 jupyter_hash = passwd(jupyter_password)
@@ -23,7 +21,7 @@ with open(config_path, "w") as config_file:
     json.dump(config_content, config_file)
 
 app = ServerApp()
-app.notebook_dir = "/opt/notebooks"
+app.root_dir = "/data"
 app.ip = "0.0.0.0"
 app.port = 8080
 app.open_browser = False

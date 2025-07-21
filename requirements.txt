@@ -1,0 +1,15 @@
+jupyterlab
+pandas
+scipy
+numpy
+statsmodels
+scikit-learn
+matplotlib
+seaborn
+tensorflow
+keras
+nltk
+transformers
+openai
+crewai
+langchain-community
