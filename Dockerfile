@@ -55,4 +55,4 @@ COPY --chown=jupyter:jupyter --chmod=500 start-jupyter.py start-jupyter.py
 COPY --chown=jupyter:jupyter --chmod=500 start-docker.sh start-docker.sh
 COPY --chown=jupyter:jupyter --chmod=400 themes.jupyterlab-settings /opt/jupyter/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
 
-CMD ["./start-jupyter.py"]
+CMD ["./start-docker.sh"]
